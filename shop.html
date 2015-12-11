@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+		<style type="text/css">
+			img {
+				width: 100%;
+			}
+			
+			.tabFixed {
+				position: fixed;
+				z-index: 999999;
+				top: 40px;
+				background: #efeff4;
+			}
+			
+			#segmentedControls {
+				height: 100%;
+				overflow-y: auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav mui-bar-custom">
+			<button class="mui-action-back mui-btn  mui-btn-link mui-btn-link-custom mui-btn-nav mui-pull-left">
+				<span class="mui-icon mui-icon-custom mui-icon-arrowleft"></span><span class="color-white">返回</span>
+			</button>
+			<h1 class="mui-title mui-title-custom">海底捞火锅店的东西</h1>
+		</header>
+		<div class="mui-content">
+			<p>
+				<img src="images/yuantiao.jpg" id="shopImg" />
+			</p>
+
+			<div id="slider" class="mui-slider">
+				<div id="tabs" class="">
+					<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+						<a class="mui-control-item mui-btn-link" id="foodType">
+						所有菜品<span class="mui-icon  mui-icon-bars color-custom"></span>
+						</a>
+						<a class="mui-control-item" href="#item2mobile">
+						酒水
+					</a>
+					</div>
+
+					<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-6"></div>
+
+				</div>
+
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div class="content">
+							<div class="mui-loading">
+								<div class="mui-spinner">
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div class="content">
+							<div class="mui-loading">
+								<div class="mui-spinner">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script id="entry-template" type="text/x-handlebars-template">
+			{{#each shops}}
+			<ul class="mui-table-view margin15-b">
+				<li class="mui-table-view-cell mui-media">
+					<a href="#" class="">
+						<img class="mui-media-object mui-pull-left " style="max-width: 100px;width: 100px;height: 75px;" src="images/shuijiao.jpg">
+						<div class="mui-media-body">
+							<span class="shop-title mui-ellipsis">{{name}}</span>
+							<h5 class="margin5-t">口味略辣，适合喜欢辣的妹子吃</h5>
+							<p class="mui-h4 color-custom margin10-t"><strong>￥</strong>23</p>
+						</div>
+					</a>
+
+				</li>
+				<li class="mui-table-view-cell mui-text-center">
+					<a href="#" style="color: #EE8461"> <span class="mui-icon mui-icon-plusempty"></span> 添加</a>
+				</li>
+			</ul>
+			{{/each}}
+		</script>
+
+		<script src="js/handlebars.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			(function($) {
+				var shopImg = document.getElementById('shopImg');
+				var tabs = document.getElementById('tabs');
+				var mainContent = document.body.querySelector('#content');
+				var source = document.getElementById("entry-template").innerHTML;
+				var template = Handlebars.compile(source);
+				var shops = new Array();
+				for (var i = 0; i < 10; i++) {
+					shops.push({
+						name: '好吃的菜' + (i + 1)
+					});
+				}
+				var html = template({
+					shops: shops
+				});
+				var html1 = html;
+				var html2 = html;
+				var item1 = document.getElementById('item1mobile');
+				var item2 = document.getElementById('item2mobile');
+				setTimeout(function() {
+					item1.querySelector('.content').innerHTML = html1;
+				}, 500);
+				window.addEventListener('scroll', function(e) {
+					var top = document.documentElement.scrollTop || document.body.scrollTop;
+					//top == 235
+					if (top > shopImg.height) {
+						tabs.setAttribute('class', 'tabFixed');
+					} else {
+						tabs.setAttribute('class', '');
+					}
+				});
+				document.getElementById('slider').addEventListener('slide', function(e) {
+					if (e.detail.slideNumber === 0) {
+						if (item1.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item1.querySelector('.content').innerHTML = html1;
+							}, 500);
+						}
+					} else if (e.detail.slideNumber === 1) {
+						if (item2.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item2.querySelector('.content').innerHTML = html2;
+							}, 500);
+						}
+					}
+				});
+				document.getElementById("foodType").addEventListener('tap', function() {
+					var btnArray = [{
+						title: "新品上架",
+						style: "destructive"
+					}, {
+						title: "精品推荐",
+						style: "destructive"
+					}, {
+						title: "香辣一品",
+						style: "destructive"
+					}];
+					plus.nativeUI.actionSheet({
+						title: "选择分类",
+						cancel: "取消",
+						buttons: btnArray
+					}, function(e) {
+						var index = e.index;
+						var text = "你刚点击了\"";
+						switch (index) {
+							case 0:
+								text += "取消";
+								break;
+							case 1:
+								text += "拍照或录像";
+								break;
+							case 2:
+								text += "选取现有的";
+								break;
+						}
+					});
+				});
+			})(mui);
+
+		</script>
+	</body>
+
+</html>

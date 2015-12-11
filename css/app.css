@@ -1,0 +1,53 @@
+.margin5-t {
+	margin-top: 5px;
+}
+
+.margin5-tb {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.margin10-tb{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.margin15-b {
+	margin-bottom: 15px;
+}
+
+.margin20-b{
+	margin-bottom: 20px;
+}
+.shop-title {
+	font-size: 18px;
+}
+
+.mui-title-custom {
+	color: #fff;
+}
+
+.color-white {
+	color: #fff;
+}
+
+.mui-icon-custom {
+	color: #fff;
+}
+
+.mui-tab-label-custom {
+	color: #fff;
+}
+
+.margin10-t {
+	margin-top: 10px;
+}
+
+.color-custom{
+	color: #EE8461;
+}
+
+.mui-bar-custom {
+	background: #EE8461;
+	color: white;
+}
