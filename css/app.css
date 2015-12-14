@@ -7,7 +7,7 @@
 	margin-bottom: 5px;
 }
 
-.margin10-tb{
+.margin10-tb {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
@@ -16,9 +16,10 @@
 	margin-bottom: 15px;
 }
 
-.margin20-b{
+.margin20-b {
 	margin-bottom: 20px;
 }
+
 .shop-title {
 	font-size: 18px;
 }
@@ -43,11 +44,17 @@
 	margin-top: 10px;
 }
 
-.color-custom{
+.color-custom {
 	color: #EE8461;
 }
 
 .mui-bar-custom {
 	background: #EE8461;
 	color: white;
+}
+
+.btn-custom {
+	color: #fff;
+	border: 1px solid #EE8461;
+	background-color: #EE8461;
 }

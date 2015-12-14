@@ -14,28 +14,27 @@
 		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
 			<div class="mui-scroll">
 				<h5 class="mui-content-padded" style="">所有北京地区的餐馆信息</h5>
-				<div id="content"></div>
+				<div id="content" >
+					<ul class="mui-table-view margin5-tb" v-for="shop in shops">
+						<li class="mui-table-view-cell mui-media">
+							<a href="shop.html" class="shop">
+								<img class="mui-media-object mui-pull-left " style="max-width: 120px;width: 120px;height: 90px;" src="images/shuijiao.jpg">
+								<div class="mui-media-body">
+									<span class="shop-title mui-ellipsis">{{shop.name}}</span>
+									<h5>非常好吃的海底捞火锅，请敞开了吃吧！</h5>
+									<p class="mui-h6 mui-ellipsis"><strong>地址：</strong>北京市西什库大街100号</p>
+									<p class="mui-h6"><strong>电话：</strong>010-54330494</p>
+								</div>
+							</a>
+						</li>
+					</ul>
+
+				</div>
 			</div>
 		</div>
-		<script id="entry-template" type="text/x-handlebars-template">
-			{{#each shops}}
-			<ul class="mui-table-view margin5-tb">
-				<li class="mui-table-view-cell mui-media">
-					<a href="shop.html" class="shop">
-						<img class="mui-media-object mui-pull-left " style="max-width: 120px;width: 120px;height: 90px;" src="images/shuijiao.jpg">
-						<div class="mui-media-body">
-							<span class="shop-title mui-ellipsis">{{name}}</span>
-							<h5>非常好吃的海底捞火锅，请敞开了吃吧！</h5>
-							<p class="mui-h6 mui-ellipsis"><strong>地址：</strong>北京市西什库大街100号</p>
-							<p class="mui-h6"><strong>电话：</strong>010-54330494</p>
-						</div>
-					</a>
-				</li>
-			</ul>
-			{{/each}}
-		</script>
-		<script src="js/handlebars.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
+			
 			mui.init({
 				pullRefresh: {
 					container: "#pullrefresh", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
@@ -44,29 +43,31 @@
 						contentover: "释放立即刷新", //可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
 						contentrefresh: "正在刷新...", //可选，正在刷新状态时，下拉刷新控件上显示的标题内容
 						callback: function() {
-							mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+							mui('#content').pullRefresh().endPulldownToRefresh();
 						}
 					}
 				}
 			});
-			var mainContent = document.body.querySelector('#content');
-			var source = document.getElementById("entry-template").innerHTML;
-			var template = Handlebars.compile(source);
-			var shops = new Array();
-			for (var i = 0; i < 10; i++) {
-				shops.push({
-					name: 'title' + (i + 1)
-				});
-			}
-			var html = template({
-				shops: shops
-			});
-			mainContent.innerHTML = html;
 			mui('#content').on('tap', 'a', function() {
 				mui.openWindow({
 					url: 'shop.html'
 				});
 			});
+			
+			
+			new Vue({
+				el: '#content',
+				data: {
+					shops: [{
+						name: 'Learn JavaScript'
+					}, {
+						name: 'Learn Vue.js'
+					}, {
+						name: 'Build Something Awesome'
+					}]
+				}
+			});
+			
 		</script>
 	</body>
 

@@ -200,7 +200,10 @@
 					"images/shuijiao.jpg",
 					"css/app.css",
 					"main.html",
-					"css/mui.css"
+					"css/mui.css",
+					"css/iconfont.css",
+					"fonts/iconfont.woff",
+					"js/vue.min.js"
 				],
 				"refer": [],
 				"priority": 0
@@ -214,7 +217,8 @@
 					"js/handlebars-v4.0.5.js",
 					"js/handlebars.min.js",
 					"fonts/mui.ttf",
-					"css/mui.css"
+					"css/mui.css",
+					"js/vue.min.js"
 				],
 				"refer": [
 					"shop.html"
@@ -231,7 +235,11 @@
 					"images/shuijiao.jpg",
 					"js/handlebars.min.js",
 					"css/app.css",
-					"css/mui.css"
+					"css/mui.css",
+					"css/iconfont.css",
+					"fonts/iconfont.woff",
+					"js/vue.min.js",
+					"js/app/shop.js"
 				],
 				"refer": [],
 				"priority": 0
