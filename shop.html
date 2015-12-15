@@ -25,6 +25,27 @@
 				height: 100%;
 				overflow-y: auto;
 			}
+			
+			.bar-opacity {
+				position: absolute;
+				background: rgba(0, 0, 0, 0);
+			}
+			
+			.all-price {
+				font-size: 16px;
+				margin-top: 5px;
+				color: #EE8461;
+				margin-left: 50px;
+			}
+			
+			.bottom-bar {
+				padding: 7px 10px;
+				background: #F5F5F5;
+				border-top: 1px solid #E8E8ED;
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+			}
 		</style>
 		<script type="text/javascript">
 			mui.init({
@@ -34,112 +55,116 @@
 	</head>
 
 	<body id="app">
-		<header class="mui-bar mui-bar-nav mui-bar-custom">
+		<div class="mui-bar mui-bar-nav mui-bar-custom bar-opacity ">
 			<button class="mui-action-back mui-btn  mui-btn-link mui-btn-link-custom mui-btn-nav mui-pull-left">
 				<span class="mui-icon mui-icon-custom mui-icon-arrowleft"></span><span class="color-white">返回</span>
 			</button>
 			<h1 class="mui-title mui-title-custom">海底捞火锅店的东西</h1>
 
 			<button class="mui-btn  mui-btn-link mui-pull-right">
-				<span class="mui-icon iconfont icon-order mui-icon-custom">
-					<span class="mui-badge">9</span>
-				</span>
+				<span class="mui-icon mui-icon-star mui-icon-custom" v-on:tap="favorite()"></span>
 			</button>
 
-		</header>
-		<div class="mui-content">
+		</div>
+		<div class="mui-content" style="padding-top: 0px;">
 			<p>
 				<img src="images/yuantiao.jpg" id="shopImg" />
 				<div style="background: #EE8461; color: #fff; padding: 12px 0px;text-align: center; margin-top: -17px;">有名的海底捞火锅店，百年老店</div>
 			</p>
 
-			<div id="slider" class="mui-slider">
-				<div id="tabs" class="">
-					<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-						<a class="mui-control-item mui-btn-link" href="#item1mobile">
-							所有菜品<span class="mui-icon  mui-icon-bars color-custom" id="foodType" v-on:tap="foodTypes()"></span>
+			<div id="slider" class="mui-slider" style="margin-bottom: 50px;">
+				<div id="tabs" style="padding: 10px 10px;">
+					<div id="sliderSegmentedControl" class="mui-segmented-control">
+						<a class="mui-control-item mui-active" href="#item1mobile">
+							所有菜品
 						</a>
 						<a class="mui-control-item" href="#item2mobile">
-							所有酒水<span class="mui-icon  mui-icon-bars color-custom" id="drinksType" style="display: none;" v-on:tap="drinksTypes()"></span>
+							所有酒水
 						</a>
 					</div>
-
-					<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-6"></div>
-
 				</div>
 
-				<div class="mui-slider-group">
-					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
-						<div class="content">
-							<ul class="mui-table-view margin5-tb" v-for="f in foods">
-								<li class="mui-table-view-cell mui-media">
-									<img class="mui-media-object mui-pull-left " style="max-width: 100px;width: 100px;height: 75px;" src="images/shuijiao.jpg">
-									<div class="mui-media-body">
-										<span class="shop-title mui-ellipsis">{{f.name}}</span>
-										<span class="mui-icon mui-icon-more mui-pull-right" v-on:tap="more(f)"></span>
-										<h5 class="margin5-t">口味略辣，适合喜欢辣的妹子吃</h5>
-										<p class="mui-h4 color-custom margin10-t">￥23</p>
-									</div>
-								</li>
-								<li class="mui-table-view-cell mui-text-center">
-									<a href="#" style="color: #EE8461"> <span class="mui-icon mui-icon-plusempty"></span> 加入订单</a>
-								</li>
-							</ul>
-						</div>
+				<div id="item1mobile" class="mui-control-content mui-active">
+					<div id="foodContent">
+						<ul class="mui-table-view margin5-tb" v-for="f in foods">
+							<li class="mui-table-view-cell mui-media">
+								<img class="mui-media-object mui-pull-left " style="max-width: 100px;width: 100px;height: 75px;" src="images/shuijiao.jpg">
+								<div class="mui-media-body">
+									<span class="shop-title mui-ellipsis">{{f.name}}</span>
+									<span class="mui-icon mui-icon-more mui-pull-right" v-on:tap="more(f)"></span>
+									<h5 class="margin5-t">口味略辣，适合喜欢辣的妹子吃</h5>
+									<p class="mui-h4 color-custom margin10-t"> {{f.price}}</p>
+								</div>
+							</li>
+							<li class="mui-table-view-cell mui-text-center" style="padding: 5px 0;" v-show="order.foods.indexOf(f)<0" v-on:tap="addOrder(f, 'foods')">
+								<button class="mui-btn-link"> <span class="mui-icon mui-icon-plusempty"></span> 加入菜单</button>
+							</li>
+							<li class="mui-table-view-cell mui-text-center" style="padding: 5px 0;" v-show="order.foods.indexOf(f)>=0" v-on:tap="removeOrder(f, 'foods')">
+								<button class="mui-btn-link"> <span class="mui-icon mui-icon-trash"></span> 移除菜单</button>
+							</li>
+						</ul>
 					</div>
-					<div id="item2mobile" class="mui-slider-item mui-control-content">
-						<div class="content" v-for="d in drinks">
-							<ul class="mui-table-view margin15-b">
-								<li class="mui-table-view-cell mui-media">
-									<img class="mui-media-object mui-pull-left " style="max-width: 100px;width: 100px;height: 75px;" src="images/shuijiao.jpg">
-									<div class="mui-media-body">
-										<span class="shop-title mui-ellipsis">{{d.name}}</span>
-										<span class="mui-icon mui-icon-more mui-pull-right" v-on:click="more(d)"></span>
-										<h5 class="margin5-t">口味略辣，适合喜欢辣的妹子吃</h5>
-										<p class="mui-h4 color-custom margin10-t">￥23</p>
-									</div>
-								</li>
-								<li class="mui-table-view-cell mui-text-center">
-									<a href="#" style="color: #EE8461"> <span class="mui-icon mui-icon-plusempty"></span> 加入订单</a>
-								</li>
-							</ul>
-						</div>
+				</div>
+				<div id="item2mobile" class="mui-control-content">
+					<div v-for="d in drinks">
+						<ul class="mui-table-view margin15-b">
+							<li class="mui-table-view-cell mui-media">
+								<img class="mui-media-object mui-pull-left " style="max-width: 100px;width: 100px;height: 75px;" src="images/shuijiao.jpg">
+								<div class="mui-media-body">
+									<span class="shop-title mui-ellipsis">{{d.name}}</span>
+									<span class="mui-icon mui-icon-more mui-pull-right" v-on:tap="more(d)"></span>
+									<h5 class="margin5-t">口味略辣，适合喜欢辣的妹子吃</h5>
+									<p class="mui-h4 color-custom margin10-t">￥{{d.price}}</p>
+								</div>
+							</li>
+							<li class="mui-table-view-cell mui-text-center" v-show="order.drinks.indexOf(d)<0" v-on:tap="addOrder(d, 'drinks')">
+								<button class="mui-btn-link"> <span class="mui-icon mui-icon-plusempty"></span> 加入菜单</a>
+
+							</li>
+							<li class="mui-table-view-cell mui-text-center" v-show="order.drinks.indexOf(d)>=0" v-on:tap="removeOrder(d, 'drinks')">
+								<button class="mui-btn-link"> <span class="mui-icon mui-icon-trash"></span> 移除菜单</a>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>
-			<div style="padding: 10px;background:#F5F5F5 ; border-top: 1px solid #E8E8ED; position: fixed; bottom: 0; width: 100%;">
-				<div class="mui-pull-left" style="font-size: 18px; margin-top: 10px;">共 35 元</div>
-				<button class="mui-btn btn-custom mui-pull-right">选好了</button>
+			<div class="bottom-bar">
+				<div style="background: #EE8461; position: absolute; border-radius: 50%; top: -10px;">
+					<span class="mui-icon iconfont icon-gouwuche color-white" style="font-size: 24px; padding: 10px;"><span class="mui-badge" v-if="order.count > 0">{{order.count}}</span></span>
+				</div>
+				<div class="mui-pull-left all-price">共 {{order.price}} 元</div>
+				<button class="mui-btn btn-custom mui-pull-right btn-small">选好了</button>
 			</div>
 		</div>
 
 		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/app/shop.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/utils.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			
 			(function($) {
 				var foodType = document.getElementById('foodType');
 				var drinksType = document.getElementById('drinksType');
 				var shopImg = document.getElementById('shopImg');
 				var tabs = document.getElementById('tabs');
-				var mainContent = document.body.querySelector('#content');
+				// 隐藏滚动条
+				mui.plusReady(function() {
+					plus.webview.currentWebview().setStyle({
+						scrollIndicator: 'none'
+					});
+				});
 				window.addEventListener('scroll', function(e) {
 					var top = document.documentElement.scrollTop || document.body.scrollTop;
 					//top == 235
 					if (top > shopImg.height) {
 						tabs.setAttribute('class', 'tabFixed');
+						document.querySelector('.mui-bar').classList.remove('bar-opacity')
 					} else {
 						tabs.setAttribute('class', '');
+						document.querySelector('.mui-bar').classList.add('bar-opacity')
 					}
 				});
 				document.getElementById('slider').addEventListener('slide', function(e) {
-					if (e.detail.slideNumber === 0) {
-						foodType.style.display = '';
-						drinksType.style.display = 'none';
-					} else if (e.detail.slideNumber === 1) {
-						drinksType.style.display = '';
-						foodType.style.display = 'none';
-					}
+					if (e.detail.slideNumber === 0) {} else if (e.detail.slideNumber === 1) {}
 				});
 			})(mui);
 		</script>

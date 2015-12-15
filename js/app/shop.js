@@ -1,24 +1,73 @@
 new Vue({
 	el: '#app',
 	data: {
+		order: {
+			foods: [],
+			drinks: [],
+			price: 0,
+			count: 0
+		},
 		foods: [{
+			id: 1,
+			price: 20,
 			name: '菜品1'
 		}, {
+			id: 2,
+			price: 30,
 			name: '菜品二'
 		}, {
+			id: 1,
+			price: 20,
+			name: '菜品1'
+		}, {
+			id: 2,
+			price: 30,
+			name: '菜品二'
+		}, {
+			id: 1,
+			price: 20,
+			name: '菜品1'
+		}, {
+			id: 2,
+			price: 30,
+			name: '菜品二'
+		}, {
+			id: 1,
+			price: 20,
+			name: '菜品1'
+		}, {
+			id: 2,
+			price: 30,
+			name: '菜品二'
+		}, {
+			id: 1,
+			price: 20,
+			name: '菜品1'
+		}, {
+			id: 2,
+			price: 30,
+			name: '菜品二'
+		}, {
+			id: 3,
+			price: 40,
 			name: '菜品三'
 		}],
 		drinks: [{
+			id: 1,
+			price: 50,
 			name: '酒水一'
 		}, {
+			id: 2,
+			price: 50,
 			name: '酒水二'
 		}, {
+			id: 3,
+			price: 50,
 			name: '酒水三'
 		}]
 	},
 	methods: {
-		foodTypes: function() {
-			console.log("ddd");
+		foodTypes: function() { // 点击菜品分类
 			var btnArray = [{
 				title: "新品上架",
 				style: "destructive"
@@ -49,7 +98,7 @@ new Vue({
 				}
 			});
 		},
-		drinksTypes: function() {
+		drinksTypes: function() { // 点击酒水分类
 			var btnArray = [{
 				title: "新品上架",
 				style: "destructive"
@@ -80,7 +129,10 @@ new Vue({
 				}
 			});
 		},
-		more: function(model) {
+		favorite: function() { // 店铺收藏图标
+			mui.toast('店铺收藏成功！');
+		},
+		more: function(model) { // 点击更多图标
 			var btnArray = [{
 				title: "分享"
 			}];
@@ -104,6 +156,46 @@ new Vue({
 						break;
 				}
 			});
+		},
+		addOrder: function(m, type) {
+			var $this = this;
+			var addFood = function(model) {
+					$this.order.count += 1;
+					$this.order.foods.push(model);
+					$this.order.price += model.price;
+				},
+				addDrinks = function(model) {
+					$this.order.count += 1;
+					$this.order.drinks.push(model);
+					$this.order.price += model.price;
+				};
+
+			if (type == 'foods') {
+				addFood(m);
+			}
+			if (type == 'drinks') {
+				addDrinks(m);
+			}
+		},
+		removeOrder: function(m, type) {
+			var $this = this;
+			var removeFood = function(model) {
+					$this.order.count -= 1;
+					$this.order.foods.remove(model);
+					$this.order.price -= model.price;
+				},
+				removeDrinks = function(model) {
+					$this.order.count -= 1;
+					$this.order.drinks.remove(model);
+					$this.order.price -= model.price;
+				};
+
+			if (type == 'foods') {
+				removeFood(m);
+			}
+			if (type == 'drinks') {
+				removeDrinks(m);
+			}
 		}
 	}
 })

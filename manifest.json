@@ -218,7 +218,9 @@
 					"js/handlebars.min.js",
 					"fonts/mui.ttf",
 					"css/mui.css",
-					"js/vue.min.js"
+					"js/vue.min.js",
+					"js/mui.lazyload.img.js",
+					"js/mui.lazyload.js"
 				],
 				"refer": [
 					"shop.html"
@@ -239,7 +241,16 @@
 					"css/iconfont.css",
 					"fonts/iconfont.woff",
 					"js/vue.min.js",
-					"js/app/shop.js"
+					"js/app/shop.js",
+					"js/utils.js",
+					"foods.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"foods.html": {
+				"resources": [
+					"css/mui.min.css"
 				],
 				"refer": [],
 				"priority": 0

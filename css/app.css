@@ -58,3 +58,7 @@
 	border: 1px solid #EE8461;
 	background-color: #EE8461;
 }
+.btn-small {
+	padding: 4px 10px;
+	font-size: 13px;
+}
