@@ -6,35 +6,42 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
 		<script src="js/mui.min.js"></script>
+		<script src="js/config.js" type="text/javascript" charset="utf-8"></script>
 		<link href="css/mui.css" rel="stylesheet" />
 		<link rel="stylesheet" href="css/app.css" />
 	</head>
 
-	<body>
+	<body id="mainBody">
 		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
 			<div class="mui-scroll">
-				<h5 class="mui-content-padded" style="">所有北京地区的餐馆信息</h5>
+				<h5 class="mui-content-padded" v-if="connected">所有北京地区的餐馆信息</h5>
 				<div id="content">
 					<ul class="mui-table-view margin5-tb" v-for="shop in shops">
 						<li class="mui-table-view-cell mui-media">
 							<a href="shop.html" class="shop">
-								<img class="mui-media-object mui-pull-left " style="max-width: 120px;width: 120px;height: 90px;" src="http://www.dcloud.io/hellomui/images/1.jpg?version=75.79143298789859">
+								<img class="mui-media-object mui-pull-left " style="max-width: 120px;width: 120px;height: 90px;" src="{{host}}/api/restaurant/{{shop.id}}/image">
 								<div class="mui-media-body">
 									<span class="shop-title mui-ellipsis">{{shop.name}}</span>
-									<h5>非常好吃的海底捞火锅，请敞开了吃吧！</h5>
-									<p class="mui-h6 mui-ellipsis"><strong>地址：</strong>北京市西什库大街100号</p>
-									<p class="mui-h6"><strong>电话：</strong>010-54330494</p>
+									<h5>{{shop.memo}}</h5>
+									<p class="mui-h6 mui-ellipsis"><strong>地址：</strong>{{shop.province}}{{shop.city}}{{shop.district}}{{shop.address}}</p>
+									<p class="mui-h6"><strong>电话：</strong><span v-for="tel in shop.telNum">{{tel}}</span></p>
 								</div>
 							</a>
 						</li>
 					</ul>
-
+					<div v-if="!connected" v-on:tap="reload" class="mui-text-center mui-content-padded" style="margin-top: 80px;">
+						<img src="images/wifi.png"/>
+						<div>数据获取失败!</div>
+						<p class="font-small">请检查网络后点击重新加载</p>
+					</div>
 				</div>
 			</div>
 		</div>
 		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-resource.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/mui.lazyload.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/mui.lazyload.img.js" type="text/javascript" charset="utf-8"></script>
+
 		<script type="text/javascript">
 			mui.init({
 				pullRefresh: {
@@ -54,55 +61,9 @@
 					url: 'shop.html'
 				});
 			});
-			new Vue({
-				el: '#content',
-				data: {
-					shops: [{
-						name: 'Learn JavaScript'
-					}, {
-						name: 'Learn Vue.js'
-					}, {
-						name: 'Learn JavaScript'
-					}, {
-						name: 'Learn Vue.js'
-					}, {
-						name: 'Learn JavaScript'
-					}, {
-						name: 'Learn Vue.js'
-					}, {
-						name: 'Learn JavaScript'
-					}, {
-						name: 'Learn Vue.js'
-					}, {
-						name: 'Learn JavaScript'
-					}, {
-						name: 'Learn Vue.js'
-					}, {
-						name: 'Learn JavaScript'
-					}, {
-						name: 'Learn Vue.js'
-					}, {
-						name: 'Learn JavaScript'
-					}, {
-						name: 'Learn Vue.js'
-					}, {
-						name: 'Learn JavaScript'
-					}, {
-						name: 'Learn Vue.js'
-					}, {
-						name: 'Learn JavaScript'
-					}, {
-						name: 'Learn Vue.js'
-					}, {
-						name: 'Learn JavaScript'
-					}, {
-						name: 'Learn Vue.js'
-					}, {
-						name: 'Build Something Awesome'
-					}]
-				}
-			});
+			
 		</script>
+		<script src="js/app/main.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 
 </html>
